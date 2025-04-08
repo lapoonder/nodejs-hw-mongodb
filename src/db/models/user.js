@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { isEmail } from 'validator';
+import validator from 'validator';
 
 const usersSchema = new Schema(
   {
@@ -8,7 +8,7 @@ const usersSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      validate: [isEmail, 'Неверный формат email'],
+      validate: [validator.isEmail, 'Неверный формат email'],
     },
     password: { type: String, required: true },
   },
