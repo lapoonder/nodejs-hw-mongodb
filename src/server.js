@@ -2,6 +2,7 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import router from './routers/index.js';
+import cookieParser from 'cookie-parser';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { getEnvVar } from './utils/getEnvVar.js';
@@ -18,6 +19,8 @@ export const setupServer = () => {
 
   //Без CORS браузери не дозволяють вебзапитам отримувати ресурси з іншого домену через політику схрещеного походження.
   app.use(cors());
+
+  app.use(cookieParser());
 
   //Middleware для логування, такий як pino-http, слід розташовувати якомога раніше у ланцюгу middleware,
   // щоб він міг логувати всі вхідні запити до вашого додатку, а також відповіді та можливі помилки, що виникають під час обробки цих запитів.
