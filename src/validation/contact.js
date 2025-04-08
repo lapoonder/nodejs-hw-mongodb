@@ -66,4 +66,11 @@ export const updateContactSchema = Joi.object({
       'string.min': 'Type should have at least {#limit} characters',
       'string.max': 'Type should have at most {#limit} characters',
     }),
+  userId: Joi.string().custom((value, helper) => {
+    if (value && !isValidObjectId(value)) {
+      // @ts-ignore
+      return helper.message('User id should be a valid mongo id');
+    }
+    return true;
+  }),
 });

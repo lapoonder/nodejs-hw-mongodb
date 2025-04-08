@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { authenticate } from '../middlewares/authenticate.js';
+import { checkUser } from '../middlewares/checkUser.js';
 import {
   getContactsController,
   getContactByIdController,
@@ -20,9 +21,14 @@ const router = Router();
 
 router.use(authenticate);
 
-router.get('/', ctrlWrapper(getContactsController));
+router.get('/', checkUser(), ctrlWrapper(getContactsController));
 
-router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController));
+router.get(
+  '/:contactId',
+  checkUser(),
+  isValidId,
+  ctrlWrapper(getContactByIdController),
+);
 
 router.post(
   '/',
@@ -30,10 +36,16 @@ router.post(
   ctrlWrapper(createContactController),
 );
 
-router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));
+router.delete(
+  '/:contactId',
+  checkUser(),
+  isValidId,
+  ctrlWrapper(deleteContactController),
+);
 
 router.put(
   '/:contactId',
+  checkUser(),
   isValidId,
   validateBody(createContactSchema),
   ctrlWrapper(upsertContactController),
@@ -41,6 +53,7 @@ router.put(
 
 router.patch(
   '/:contactId',
+  checkUser(),
   isValidId,
   validateBody(updateContactSchema),
   ctrlWrapper(patchContactController),
