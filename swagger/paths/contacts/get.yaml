@@ -1,0 +1,58 @@
+tags:
+  - Contacts
+summary: Get all contacts
+operationId: getAllContacts
+description: Retrieve a paginated list of contacts for the authenticated user.
+security:
+  - bearerAuth: []
+parameters:
+  - in: query
+    name: page
+    description: Page number
+    required: false
+    schema:
+      type: integer
+      example: 1
+  - in: query
+    name: perPage
+    description: Number of items per page
+    required: false
+    schema:
+      type: integer
+      example: 10
+  - in: query
+    name: sortBy
+    description: Sorting by parameters
+    required: false
+    schema:
+      type: string
+      example: name
+  - in: query
+    name: sortOrder
+    description: Sorting up or down
+    required: false
+    schema:
+      type: string
+      example: desc
+  - in: query
+    name: isFavourite
+    description: Favourite status
+    required: false
+    schema:
+      type: boolean
+      example: false
+  - in: query
+    name: contactType
+    description: Type of contact
+    required: false
+    schema:
+      type: string
+      enum: ['work', 'home', 'personal']
+      example: home
+responses:
+  '200':
+    $ref: '../../components/responses/200AllContacts.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '404':
+    $ref: '../../components/responses/404.yaml'

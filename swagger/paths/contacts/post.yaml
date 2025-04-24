@@ -1,0 +1,23 @@
+tags:
+  - Contacts
+summary: Create a new contact
+operationId: createContact
+description: Create a new contact with optional photo upload.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        $ref: '../../components/schemas/createContactRequest.yaml'
+      encoding:
+        photo:
+          contentType: image/png
+responses:
+  '201':
+    $ref: '../../components/responses/201.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '404':
+    $ref: '../../components/responses/404.yaml'

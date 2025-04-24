@@ -6,6 +6,8 @@ import cookieParser from 'cookie-parser';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { getEnvVar } from './utils/getEnvVar.js';
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
+import { TEMP_UPLOAD_DIR } from './constants/index.js';
 
 // Читаємо змінну оточення PORT
 const PORT = Number(getEnvVar('PORT', '3000'));
@@ -31,6 +33,9 @@ export const setupServer = () => {
       },
     }),
   );
+
+  app.use('/uploads', express.static(TEMP_UPLOAD_DIR));
+  app.use('/api-docs', swaggerDocs());
 
   app.use(router);
 
