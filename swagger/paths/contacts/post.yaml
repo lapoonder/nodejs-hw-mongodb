@@ -10,14 +10,38 @@ requestBody:
   content:
     multipart/form-data:
       schema:
-        $ref: '../../components/schemas/createContactRequest.yaml'
+        type: object
+        required:
+          - name
+          - phoneNumber
+          - contactType
+        properties:
+          name:
+            type: string
+            example: Igor Potapenko
+          phoneNumber:
+            type: string
+            example: '+380679878596'
+          email:
+            type: string
+            example: igor@gmail.com
+          isFavourite:
+            type: boolean
+            example: true
+          contactType:
+            type: string
+            enum: [work, home, personal]
+            example: personal
+          photo:
+            type: string
+            format: binary
       encoding:
         photo:
           contentType: image/png
 responses:
   '201':
     $ref: '../../components/responses/201.yaml'
+  '400':
+    $ref: '../../components/responses/400.yaml'
   '401':
     $ref: '../../components/responses/401.yaml'
-  '404':
-    $ref: '../../components/responses/404.yaml'

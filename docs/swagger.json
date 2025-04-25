@@ -21,10 +21,6 @@
     {
       "name": "Contacts",
       "description": "Operations about contacts."
-    },
-    {
-      "name": "Auth",
-      "description": "Auth operations."
     }
   ],
   "paths": {
@@ -93,7 +89,38 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/updateContactRequest"
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Igor Potapenko"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "+380679878596"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "igor@gmail.com"
+                  },
+                  "isFavourite": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "contactType": {
+                    "type": "string",
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ],
+                    "example": "personal"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
               },
               "encoding": {
                 "photo": {
@@ -106,6 +133,9 @@
         "responses": {
           "200": {
             "$ref": "#/components/responses/200Update"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
           },
           "401": {
             "$ref": "#/components/responses/401"
@@ -238,9 +268,6 @@
           },
           "401": {
             "$ref": "#/components/responses/401"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
           }
         }
       },
@@ -261,7 +288,43 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/createContactRequest"
+                "type": "object",
+                "required": [
+                  "name",
+                  "phoneNumber",
+                  "contactType"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Igor Potapenko"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "+380679878596"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "igor@gmail.com"
+                  },
+                  "isFavourite": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "contactType": {
+                    "type": "string",
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ],
+                    "example": "personal"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
               },
               "encoding": {
                 "photo": {
@@ -275,11 +338,11 @@
           "201": {
             "$ref": "#/components/responses/201"
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
           "401": {
             "$ref": "#/components/responses/401"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
           }
         }
       }
@@ -299,13 +362,10 @@
           "_id",
           "name",
           "phoneNumber",
-          "email",
-          "isFavourite",
           "contactType",
           "userId",
           "createdAt",
-          "updatedAt",
-          "photo"
+          "updatedAt"
         ],
         "properties": {
           "_id": {
@@ -365,84 +425,6 @@
             "example": "https://res.cloudinary.com/dujomc8om/image/upload/v1744831924/quf6gdaqtznsq5ocxckw.png"
           }
         }
-      },
-      "updateContactRequest": {
-        "type": "object",
-        "required": [
-          "name",
-          "phoneNumber",
-          "contactType"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Igor Potapenko"
-          },
-          "phoneNumber": {
-            "type": "string",
-            "example": "+380679878596"
-          },
-          "email": {
-            "type": "string",
-            "example": "igor@gmail.com"
-          },
-          "isFavourite": {
-            "type": "boolean",
-            "example": true
-          },
-          "contactType": {
-            "type": "string",
-            "enum": [
-              "work",
-              "home",
-              "personal"
-            ],
-            "example": "personal"
-          },
-          "photo": {
-            "type": "string",
-            "format": "binary"
-          }
-        }
-      },
-      "createContactRequest": {
-        "type": "object",
-        "required": [
-          "name",
-          "phoneNumber",
-          "contactType"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Igor Potapenko"
-          },
-          "phoneNumber": {
-            "type": "string",
-            "example": "+380679878596"
-          },
-          "email": {
-            "type": "string",
-            "example": "igor@gmail.com"
-          },
-          "isFavourite": {
-            "type": "boolean",
-            "example": true
-          },
-          "contactType": {
-            "type": "string",
-            "enum": [
-              "work",
-              "home",
-              "personal"
-            ],
-            "example": "personal"
-          },
-          "photo": {
-            "type": "string",
-            "format": "binary"
-          }
-        }
       }
     },
     "responses": {
@@ -496,6 +478,92 @@
                 },
                 "data": {
                   "$ref": "#/components/schemas/contact"
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Invalid request body",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "BadRequestError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message",
+                    "errors"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "message",
+                          "path",
+                          "type",
+                          "context"
+                        ],
+                        "properties": {
+                          "message": {
+                            "type": "string",
+                            "example": "\"name\" is not allowed to be empty"
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "example": [
+                                "name"
+                              ]
+                            }
+                          },
+                          "type": {
+                            "type": "string",
+                            "example": "string.empty"
+                          },
+                          "context": {
+                            "type": "object",
+                            "properties": {
+                              "label": {
+                                "type": "string",
+                                "example": "name"
+                              },
+                              "value": {
+                                "type": "string",
+                                "example": ""
+                              },
+                              "key": {
+                                "type": "string",
+                                "example": "name"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }

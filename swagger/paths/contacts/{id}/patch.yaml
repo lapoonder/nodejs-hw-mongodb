@@ -12,19 +12,41 @@ parameters:
     required: true
     schema:
       type: string
-      example: '65ca67e7ae7f10c88b598384'
+      example: '67f5a6d199d5f047cda4349d'
 requestBody:
   required: true
   content:
     multipart/form-data:
       schema:
-        $ref: '../../../components/schemas/updateContactRequest.yaml'
+        type: object
+        properties:
+          name:
+            type: string
+            example: Igor Potapenko
+          phoneNumber:
+            type: string
+            example: '+380679878596'
+          email:
+            type: string
+            example: igor@gmail.com
+          isFavourite:
+            type: boolean
+            example: true
+          contactType:
+            type: string
+            enum: [work, home, personal]
+            example: personal
+          photo:
+            type: string
+            format: binary
       encoding:
         photo:
           contentType: image/png
 responses:
   '200':
     $ref: ../../../components/responses/200Update.yaml
+  '400':
+    $ref: '../../../components/responses/400.yaml'
   '401':
     $ref: '../../../components/responses/401.yaml'
   '404':
