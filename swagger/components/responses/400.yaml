@@ -1,4 +1,7 @@
-description: Invalid request body
+description: |
+  Bad Request. Possible reasons:
+    - Invalid request contact by ID (validation error)
+    - Invalid request body (schema validation error)
 content:
   application/json:
     schema:

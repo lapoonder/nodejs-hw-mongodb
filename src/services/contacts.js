@@ -16,9 +16,9 @@ export const getAllContacts = async ({
   const contactsQuery = ContactsCollection.find({ userId });
 
   // @ts-ignore
-  if (filter.type) {
+  if (filter.contactType) {
     // @ts-ignore
-    contactsQuery.where('contactType').equals(filter.type);
+    contactsQuery.where('contactType').equals(filter.contactType);
   }
   // @ts-ignore
   if (typeof filter.isFavourite === 'boolean') {
